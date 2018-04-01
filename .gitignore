@@ -254,3 +254,5 @@ gradle-app.setting
 *.iml
 /src/main/resources/application-local.properties
 /src/test/java/com/github/superkoh/paysdk/wechat/WxPayServiceTest.java
+/src/test/resources/application.properties
+!/src/test/java/com/github/superkoh/paysdk/wechat/WxPayServiceTest.java
