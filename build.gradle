@@ -32,6 +32,7 @@ repositories {
     }
     mavenCentral()
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -42,6 +43,13 @@ dependencies {
     compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
     compile group: 'com.google.guava', name: 'guava', version: '24.1-jre'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    compile 'com.github.wxpay:WXPay-SDK-Java:0.0.4'
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.9.Final'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version: '6.0.9.Final'
+    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+    compile group: 'org.glassfish', name: 'javax.el', version: '3.0.0'
+
 
 
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.1.0'

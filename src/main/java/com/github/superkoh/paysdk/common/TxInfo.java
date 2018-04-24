@@ -1,11 +1,11 @@
 package com.github.superkoh.paysdk.common;
 
 import com.github.superkoh.paysdk.common.wx.WxTxInfo;
-import com.github.superkoh.paysdk.wechat.api.res.WxTxRes;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import lombok.Data;
 
 @Data
@@ -73,29 +73,29 @@ public class TxInfo {
    */
   private WxTxInfo wxInfo;
 
-  private TxInfo(WxTxRes txRes) {
-    this.orderId = txRes.getOutTradeNo();
-    this.txId = txRes.getTransactionId();
-    this.txType = txRes.getTradeType();
-    this.txStateStr = txRes.getTradeState();
-    this.txStateDesc = txRes.getTradeStateDesc();
-    this.txState = TxState.fromWxState(txRes.getTradeState());
-    this.bankType = txRes.getBankType();
-    this.totalFee = txRes.getTotalFee();
-    this.feeType = txRes.getFeeType();
-    this.paidFee = txRes.getCashFee();
-    this.paidFeeType = txRes.getCashFeeType();
-    this.couponFee = txRes.getCouponFee();
-    this.extra = txRes.getAttach();
-    if (null != txRes.getTimeEnd()) {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-      this.txEndTime = LocalDateTime.parse(txRes.getTimeEnd(), formatter)
-          .atZone(ZoneId.of("Asia/Shanghai")).toInstant();
-    }
-    this.wxInfo = new WxTxInfo(txRes);
+  private TxInfo() {
   }
 
-  public static TxInfo wxTxInfo(WxTxRes txRes) {
-    return new TxInfo(txRes);
+  public static TxInfo wxTxInfo(Map<String, String> wxTxResp) {
+    TxInfo txInfo = new TxInfo();
+    txInfo.setOrderId(wxTxResp.get("out_trade_no"));
+    txInfo.setTxId(wxTxResp.get("transaction_id"));
+    txInfo.setTxStateStr(wxTxResp.get("trade_state"));
+    txInfo.setTxStateDesc(wxTxResp.get("trade_state_desc"));
+    txInfo.setTxState(TxState.fromWxState(wxTxResp.get("trade_state")));
+    txInfo.setBankType(wxTxResp.get("bank_type"));
+    txInfo.setTotalFee(Long.valueOf(wxTxResp.getOrDefault("total_fee", "0")));
+    txInfo.setFeeType(wxTxResp.get("fee_type"));
+    txInfo.setPaidFee(Long.valueOf(wxTxResp.getOrDefault("cash_fee", "0")));
+    txInfo.setPaidFeeType(wxTxResp.get("cash_fee_type"));
+    txInfo.setCouponFee(Long.valueOf(wxTxResp.getOrDefault("coupon_fee", "0")));
+    txInfo.setExtra(wxTxResp.get("attach"));
+    if (null != wxTxResp.get("time_end")) {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+      txInfo.setTxEndTime(LocalDateTime.parse(wxTxResp.get("time_end"), formatter)
+          .atZone(ZoneId.of("Asia/Shanghai")).toInstant());
+    }
+    txInfo.setWxInfo(new WxTxInfo(wxTxResp));
+    return txInfo;
   }
 }

@@ -9,6 +9,7 @@ import com.github.superkoh.paysdk.common.param.TxQueryParam;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Properties;
 import org.junit.jupiter.api.Test;
@@ -34,13 +35,15 @@ class WxPayServiceTest {
   @Test
   void prepay() throws PayException {
     TxPrepayParam orderInfo = TxPrepayParam.builder()
-        .orderId("test123457")
+        .orderId("test201804240001")
         .productId("abc")
         .totalFee(100L)
         .productDescription("商品信息")
         .userIp("127.0.0.1")
         .wxOpenId("oY_mk5HxCpU9fTJNn7reL68CciF4")
         .wxTradeType("JSAPI")
+        .orderCreateTime(Instant.now())
+        .orderExpireTime(Instant.now().plusSeconds(3200))
         .build();
     PrepayInfo prepayInfo = payService.prepay(orderInfo);
     System.out.println(prepayInfo);
@@ -49,7 +52,7 @@ class WxPayServiceTest {
   @Test
   void query() throws PayException {
     TxQueryParam queryInfo = new TxQueryParam();
-    queryInfo.setOrderId("test123457");
+    queryInfo.setOrderId("test201804240001");
     TxInfo txInfo = payService.query(queryInfo);
     System.out.println(txInfo);
   }

@@ -1,4 +1,4 @@
-package com.github.superkoh.paysdk.wechat.common;
+package com.github.superkoh.paysdk.wechat;
 
 import com.github.superkoh.paysdk.common.PayException;
 import lombok.Data;

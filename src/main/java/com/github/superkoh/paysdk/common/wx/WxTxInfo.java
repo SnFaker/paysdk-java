@@ -1,6 +1,6 @@
 package com.github.superkoh.paysdk.common.wx;
 
-import com.github.superkoh.paysdk.wechat.api.res.WxTxRes;
+import java.util.Map;
 import lombok.Data;
 
 @Data
@@ -10,9 +10,9 @@ public class WxTxInfo {
   private String openid;
   private String isSubscribe;
 
-  public WxTxInfo(WxTxRes txRes) {
-    this.deviceInfo = txRes.getDeviceInfo();
-    this.openid = txRes.getOpenid();
-    this.isSubscribe = txRes.getIsSubscribe();
+  public WxTxInfo(Map<String, String> wxTxResp) {
+    this.deviceInfo = wxTxResp.get("device_info");
+    this.openid = wxTxResp.get("openid");
+    this.isSubscribe = wxTxResp.get("is_subscribe");
   }
 }
