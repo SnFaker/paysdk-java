@@ -3,8 +3,9 @@ package com.github.superkoh.paysdk.wechat;
 import com.github.superkoh.paysdk.common.PayException;
 import com.github.superkoh.paysdk.common.PayService;
 import com.github.superkoh.paysdk.common.PrepayInfo;
-import com.github.superkoh.paysdk.common.RefundApplyInfo;
+import com.github.superkoh.paysdk.common.RefundApplyResult;
 import com.github.superkoh.paysdk.common.RefundInfo;
+import com.github.superkoh.paysdk.common.RefundResult;
 import com.github.superkoh.paysdk.common.TxInfo;
 import com.github.superkoh.paysdk.common.param.RefundParam;
 import com.github.superkoh.paysdk.common.param.RefundQueryParam;
@@ -181,7 +182,7 @@ public class WxPayService implements PayService {
   }
 
   @Override
-  public TxInfo fromNotify(String body) throws PayException {
+  public TxInfo fromPayCallback(String body) throws PayException {
     try {
       Map<String, String> txMap = WXPayUtil.xmlToMap(body);
       return TxInfo.wxTxInfo(txMap);
@@ -191,7 +192,7 @@ public class WxPayService implements PayService {
   }
 
   @Override
-  public RefundApplyInfo refund(RefundParam refundParam) throws PayException {
+  public RefundApplyResult refund(RefundParam refundParam) throws PayException {
     if (null == refundParam) {
       throw new IllegalArgumentException("refundParam is null");
     }
@@ -220,11 +221,16 @@ public class WxPayService implements PayService {
     }
     processResponse(resp);
 
-    return RefundApplyInfo.wxRefundApplyInfo(resp);
+    return RefundApplyResult.wxRefundApplyInfo(resp);
   }
 
   @Override
   public RefundInfo queryRefund(RefundQueryParam refundQueryParam) throws PayException {
+    return null;
+  }
+
+  @Override
+  public RefundResult fromRufundCallback(String body) throws PayException {
     return null;
   }
 

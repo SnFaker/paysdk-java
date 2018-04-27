@@ -14,9 +14,11 @@ public interface PayService {
 
   void close(TxCloseParam closeParam) throws PayException;
 
-  TxInfo fromNotify(String body) throws PayException;
+  TxInfo fromPayCallback(String body) throws PayException;
 
-  RefundApplyInfo refund(RefundParam refundParam) throws PayException;
+  RefundApplyResult refund(RefundParam refundParam) throws PayException;
 
   RefundInfo queryRefund(RefundQueryParam refundQueryParam) throws PayException;
+
+  RefundResult fromRufundCallback(String body) throws PayException;
 }
