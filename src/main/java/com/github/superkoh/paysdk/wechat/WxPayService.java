@@ -4,6 +4,7 @@ import com.github.superkoh.paysdk.common.PayException;
 import com.github.superkoh.paysdk.common.PayService;
 import com.github.superkoh.paysdk.common.PrepayInfo;
 import com.github.superkoh.paysdk.common.RefundApplyInfo;
+import com.github.superkoh.paysdk.common.RefundInfo;
 import com.github.superkoh.paysdk.common.TxInfo;
 import com.github.superkoh.paysdk.common.param.RefundParam;
 import com.github.superkoh.paysdk.common.param.RefundQueryParam;
@@ -223,7 +224,7 @@ public class WxPayService implements PayService {
   }
 
   @Override
-  public RefundApplyInfo queryRefund(RefundQueryParam refundQueryParam) throws PayException {
+  public RefundInfo queryRefund(RefundQueryParam refundQueryParam) throws PayException {
     return null;
   }
 
