@@ -33,6 +33,7 @@ public class WxPayService implements PayService {
   private String appId;
   private String mchId;
   private String secretKey;
+  private String tradeType;
   private String notifyUrl;
 
   private WXPay wxPay;
@@ -90,17 +91,18 @@ public class WxPayService implements PayService {
     }
   }
 
-  public WxPayService(String appId, String mchId, String secretKey, String notifyUrl) {
+  public WxPayService(String appId, String mchId, String secretKey, String tradeType, String notifyUrl) {
     this.appId = appId;
     this.mchId = mchId;
     this.secretKey = secretKey;
+    this.tradeType = tradeType;
     this.notifyUrl = notifyUrl;
 
     wxPay = new WXPay(new MyWxPayConfig(appId, mchId, secretKey, ""));
   }
 
   @Override
-  public PrepayInfo prepay(TxPrepayParam prepayParam, String tradeType) throws PayException {
+  public PrepayInfo prepay(TxPrepayParam prepayParam) throws PayException {
     if (null == prepayParam) {
       throw new IllegalArgumentException("prepayParam is null");
     }
