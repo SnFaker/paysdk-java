@@ -3,7 +3,10 @@ package com.github.superkoh.paysdk.wechat;
 import com.github.superkoh.paysdk.common.PayException;
 import com.github.superkoh.paysdk.common.PayService;
 import com.github.superkoh.paysdk.common.PrepayInfo;
+import com.github.superkoh.paysdk.common.RefundApplyInfo;
 import com.github.superkoh.paysdk.common.TxInfo;
+import com.github.superkoh.paysdk.common.param.RefundParam;
+import com.github.superkoh.paysdk.common.param.RefundQueryParam;
 import com.github.superkoh.paysdk.common.param.TxCloseParam;
 import com.github.superkoh.paysdk.common.param.TxPrepayParam;
 import com.github.superkoh.paysdk.common.param.TxQueryParam;
@@ -184,6 +187,44 @@ public class WxPayService implements PayService {
     } catch (Exception e) {
       throw new WxPayException(-1, e.getMessage());
     }
+  }
+
+  @Override
+  public RefundApplyInfo refund(RefundParam refundParam) throws PayException {
+    if (null == refundParam) {
+      throw new IllegalArgumentException("refundParam is null");
+    }
+    ConstraintViolationUtils.validate(refundParam);
+
+    Map<String, String> data = new HashMap<>();
+    if (null != refundParam.getTransactionId()) {
+      data.put("transaction_id", refundParam.getTransactionId());
+    } else if (null != refundParam.getOrderId()) {
+      data.put("out_trade_no", refundParam.getOrderId());
+    } else {
+      throw new IllegalArgumentException("illegal query param");
+    }
+    data.put("out_refund_no", refundParam.getRefundOrderId());
+    data.put("total_fee", String.valueOf(refundParam.getTotalFee()));
+    data.put("refund_fee", String.valueOf(refundParam.getRefundFee()));
+    if (null != refundParam.getRefundReason()) {
+      data.put("refund_desc", refundParam.getRefundReason());
+    }
+
+    Map<String, String> resp;
+    try {
+      resp = wxPay.refund(data);
+    } catch (Exception e) {
+      throw new PayException(-1, e.getMessage());
+    }
+    processResponse(resp);
+
+    return RefundApplyInfo.wxRefundApplyInfo(resp);
+  }
+
+  @Override
+  public RefundApplyInfo queryRefund(RefundQueryParam refundQueryParam) throws PayException {
+    return null;
   }
 
   private void processResponse(Map<String, String> resp) throws WxPayException {
