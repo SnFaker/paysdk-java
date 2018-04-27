@@ -6,7 +6,7 @@ import com.github.superkoh.paysdk.common.param.TxQueryParam;
 
 public interface PayService {
 
-  PrepayInfo prepay(TxPrepayParam prepayParam) throws PayException;
+  PrepayInfo prepay(TxPrepayParam prepayParam, String tradeType) throws PayException;
 
   TxInfo query(TxQueryParam queryParam) throws PayException;
 

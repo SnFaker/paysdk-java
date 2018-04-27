@@ -35,8 +35,6 @@ public class TxPrepayParam {
   /**
    * 微信特有字段
    */
-
-  private String wxTradeType;
   private String wxOpenId;
 
 }

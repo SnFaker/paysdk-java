@@ -95,12 +95,12 @@ public class WxPayService implements PayService {
   }
 
   @Override
-  public PrepayInfo prepay(TxPrepayParam prepayParam) throws PayException {
+  public PrepayInfo prepay(TxPrepayParam prepayParam, String tradeType) throws PayException {
     if (null == prepayParam) {
       throw new IllegalArgumentException("prepayParam is null");
     }
     ConstraintViolationUtils.validate(prepayParam);
-    if (null == prepayParam.getWxTradeType()) {
+    if (null == tradeType) {
       throw new IllegalArgumentException("illegal trade type");
     }
     if (null == prepayParam.getWxOpenId()) {
@@ -113,7 +113,7 @@ public class WxPayService implements PayService {
     data.put("total_fee", prepayParam.getTotalFee().toString());
     data.put("spbill_create_ip", prepayParam.getUserIp());
     data.put("notify_url", notifyUrl);
-    data.put("trade_type", prepayParam.getWxTradeType());
+    data.put("trade_type", tradeType);
     data.put("openid", prepayParam.getWxOpenId());
     data.put("time_start",
         prepayParam.getOrderCreateTime().atZone(ZoneId.of("Asia/Shanghai")).format(formatter));

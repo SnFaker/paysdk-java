@@ -41,11 +41,10 @@ class WxPayServiceTest {
         .productDescription("商品信息")
         .userIp("127.0.0.1")
         .wxOpenId("oY_mk5HxCpU9fTJNn7reL68CciF4")
-        .wxTradeType("JSAPI")
         .orderCreateTime(Instant.now())
         .orderExpireTime(Instant.now().plusSeconds(3200))
         .build();
-    PrepayInfo prepayInfo = payService.prepay(orderInfo);
+    PrepayInfo prepayInfo = payService.prepay(orderInfo, "JSAPI");
     System.out.println(prepayInfo);
   }
 
